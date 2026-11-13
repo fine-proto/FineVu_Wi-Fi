@@ -814,6 +814,8 @@ input{font:inherit}
 .qa2 .a .qn u{color:var(--brand)}
 .qa2 .a .qimg{display:block;width:100%;margin:10px auto 6px}
 .qa2 .a .qimg.w70{width:70%}.qa2 .a .qimg.w45{width:45%}
+.chips2{display:flex;flex-wrap:wrap;gap:20px 11px}
+.chip2{width:auto;min-width:90px;padding:0 16px;white-space:nowrap}
 
 </style>
 </head>
@@ -1627,10 +1629,11 @@ SCR.files = {
     });
   }
 };
+const CHIP_EN = { N: 'Normal', E: 'Event', M: 'Manual', P: 'Motion', I: 'Parking', Y: 'My folder' };
 function filterSheet(cats, cur, cb) {
   let sel = cur === 'ALL' ? [] : [...cur];
-  const draw = () => { $('#layer .chips2').innerHTML = cats.map(c => `<button class="chip2 ${sel.includes(c) ? 'on' : ''}" data-c="${c}">${T(FT[c].ko)}</button>`).join(''); $$('#layer [data-c]').forEach(b => b.onclick = () => { const c = b.dataset.c; sel = sel.includes(c) ? sel.filter(z => z !== c) : [...sel, c]; draw(); }); };
-  $('#layer').innerHTML = `<div class="bkd" data-x></div><div class="sheet fsheet"><div class="fs-t">${T('영상 카테고리')}</div><div class="chips2"></div><div class="fs-b"><button class="btn-line" data-reset>${T('초기화')}</button><button class="btn-pri" data-apply>${T('적용')}</button></div></div>`;
+  const draw = () => { $('#layer .chips2').innerHTML = cats.map(c => `<button class="chip2 ${sel.includes(c) ? 'on' : ''}" data-c="${c}">${L(FT[c].ko, CHIP_EN[c])}</button>`).join(''); $$('#layer [data-c]').forEach(b => b.onclick = () => { const c = b.dataset.c; sel = sel.includes(c) ? sel.filter(z => z !== c) : [...sel, c]; draw(); }); };
+  $('#layer').innerHTML = `<div class="bkd" data-x></div><div class="sheet fsheet"><div class="fs-t">${T('영상 카테고리')}</div><div class="chips2"></div><div class="fs-b"><button class="btn-line" data-reset>${T('초기화')}</button><button class="btn-pri" data-apply>${L('적용', 'OK')}</button></div></div>`;
   draw();
   $('#layer [data-x]').onclick = closeLayer;
   $('#layer [data-reset]').onclick = () => { sel = []; draw(); };
